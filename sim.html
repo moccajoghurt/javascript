@@ -1,13 +1,27 @@
 <html>
 <body>
-<canvas id="canv" width="500" height="500"></canvas>
+<canvas id="canv" width="800" height="800"></canvas>
 <br />
 <br />
-<input id="start_simu" type="button" value="Starte Simulation!" />
+<input id="start_sim" type="button" value="Starte Simulation!" /> &nbsp; 
+<select id = "auto" name="auto">
+<option value="1">automatisch</option>
+<option value="2">schrittweise</option>
+</select>
+&nbsp; Simulations-Geschwindigkeit
+<select id = "delay" name="delay">
+<option value="5000">1</option>
+<option value="2500">2</option>
+<option value="1000">3</option>
+<option value="500">4</option>
+<option value="250">5</option>
+<option value="100">6</option>
+</select>
 <br />
 <br />
 node size: &nbsp;
 <select id = "nodesize" name="nodesize">
+<option value="1">1</option>
 <option value="2">2</option>
 <option value="3">3</option>
 <option value="4">4</option>
@@ -32,6 +46,12 @@ select color: &nbsp;
 <option value="5">5</option>
 <option value="10">10</option>
 <option value="50">50</option>
+<option value="50">100</option>
+</select>
+&nbsp;
+<select id = "mode" name="mode">
+<option value="edit">editieren</option>
+<option value="analyze">analysieren</option>
 </select>
 <br />
 <br />
