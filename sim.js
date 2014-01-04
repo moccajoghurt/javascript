@@ -9,7 +9,8 @@ document.getElementById("braun").onclick = function () {draw_color = "braun"};
 document.getElementById("blau").onclick = function () {draw_color = "blau"};
 document.getElementById("gruen").onclick = function () {draw_color = "gruen"};
 document.getElementById("grau").onclick = function () {draw_color = "grau"};
-document.getElementById("start_sim").onclick = create_new_node_map;
+document.getElementById("start_sim").onclick = start_sim;
+document.getElementById("next").onclick = create_new_node_map;
 
 
 canv = document.getElementById("canv");
@@ -33,19 +34,26 @@ init_canvas();
 
 
 
-
+function start_sim() {
+	set_node_properties();
+}
 
 
 function create_new_node_map() {
 	
+	//init new node map
 	var new_node_map = new Array();
+	for (var i = 0; i < node_map.length; i++) {
+		new_node_map[i] = new Array();
+		for (var n = 0; n < node_map[i].length; n++) {
+			new_node_map[i][n] = new Node();
+		}
+	}
 	
 	for (var i = 0; i < node_map.length; i++) {
 		
-		new_node_map[i] = new Array();
-		
 		for (var n = 0; n < node_map[i].length; n++) {
-		
+			
 			if (node_map[i][n].color == null || node_map[i][n].reproduced == true)
 				continue;
 			
@@ -73,11 +81,37 @@ function create_new_node_map() {
 			/* Randfälle Ende*/
 			
 			if (node_map[edge_y][edge_x].reproduced == false) {
-				// vererbung
-				// dominantes allel heißt nicht, dass es vererbt wird
-				node_map[edge_y][edge_x].color = "blau";
+				
+				/***** vererbung  ******/
+				
+				new_node_map[edge_y][edge_x].bey2 = new Array();
+				new_node_map[i][n].bey2 = new Array();
+				
+				
+				// kind1 bey2
+				new_node_map[edge_y][edge_x].bey2[0] = node_map[edge_y][edge_x].bey2[Math.floor(Math.random() * 2)];
+				new_node_map[edge_y][edge_x].bey2[1] = node_map[i][n].bey2[Math.floor(Math.random() * 2)];
+				
+				//kind2 bey2
+				new_node_map[i][n].bey2[0] = node_map[edge_y][edge_x].bey2[Math.floor(Math.random() * 2)];
+				new_node_map[i][n].bey2[1] = node_map[i][n].bey2[Math.floor(Math.random() * 2)];
+				
+				
+				new_node_map[edge_y][edge_x].gey = new Array();
+				new_node_map[i][n].gey = new Array();
+				
+				//kind1 gey
+				new_node_map[edge_y][edge_x].gey[0] = node_map[edge_y][edge_x].gey[Math.floor(Math.random() * 2)];
+				new_node_map[edge_y][edge_x].gey[1] = node_map[i][n].gey[Math.floor(Math.random() * 2)];
+				
+				//kind2 gey
+				new_node_map[i][n].gey[0] = node_map[edge_y][edge_x].gey[Math.floor(Math.random() * 2)];
+				new_node_map[i][n].gey[1] = node_map[i][n].gey[Math.floor(Math.random() * 2)];
+				
+				/***** vererbung ende ******/
+				
+				
 				node_map[edge_y][edge_x].reproduced = true;
-				node_map[i][n].color = "blau";
 				node_map[i][n].reproduced = true;
 				
 			} else {
@@ -92,23 +126,62 @@ function create_new_node_map() {
 						if (y > node_map.length - 1 || x > node_map[y].length - 1)
 							continue;
 						
+						
 						if (node_map[y][x].reproduced == false) {
-							found_partner_node = true;
-							//vererbung
-							node_map[y][x].color = "blau";
-							node_map[y][x].reproduced = true;
-							node_map[i][n].color = "blau";
-							node_map[i][n].reproduced = true;
 							
-						}
+							/***** vererbung  ******/
+							
+							new_node_map[y][x].bey2 = new Array();
+							new_node_map[i][n].bey2 = new Array();
+							
+							
+							// kind1 bey2
+							new_node_map[y][x].bey2[0] = node_map[y][x].bey2[Math.floor(Math.random() * 2)];
+							new_node_map[y][x].bey2[1] = node_map[i][n].bey2[Math.floor(Math.random() * 2)];
+							
+							//kind2 bey2
+							new_node_map[i][n].bey2[0] = node_map[y][x].bey2[Math.floor(Math.random() * 2)];
+							new_node_map[i][n].bey2[1] = node_map[i][n].bey2[Math.floor(Math.random() * 2)];
+							
+							
+							new_node_map[y][x].gey = new Array();
+							new_node_map[i][n].gey = new Array();
+							
+							//kind1 gey
+							new_node_map[y][x].gey[0] = node_map[y][x].gey[Math.floor(Math.random() * 2)];
+							new_node_map[y][x].gey[1] = node_map[i][n].gey[Math.floor(Math.random() * 2)];
+							
+							//kind2 gey
+							new_node_map[i][n].gey[0] = node_map[y][x].gey[Math.floor(Math.random() * 2)];
+							new_node_map[i][n].gey[1] = node_map[i][n].gey[Math.floor(Math.random() * 2)];
+							
+							/***** vererbung ende ******/
+							
+							node_map[y][x].reproduced = true;
+							node_map[i][n].reproduced = true;
+							found_partner_node = true;
+							
+						} 
 					}
 				}
 				
 				if (found_partner_node == false) {
-					node_map[i][n].color = "blau";
-					node_map[i][n].reproduced = true;
 					
-					// fremdgehen
+					/***** vererbung  ******/
+					
+					new_node_map[i][n].bey2 = new Array();
+					
+					
+					new_node_map[i][n].bey2[0] = node_map[_y][_x].bey2[Math.floor(Math.random() * 2)];
+					new_node_map[i][n].bey2[1] = node_map[i][n].bey2[Math.floor(Math.random() * 2)];
+					
+					new_node_map[i][n].gey = new Array();
+					
+					new_node_map[i][n].gey[0] = node_map[_y][_x].gey[Math.floor(Math.random() * 2)];
+					new_node_map[i][n].gey[1] = node_map[i][n].gey[Math.floor(Math.random() * 2)];
+					
+					/***** vererbung ende ******/
+					node_map[i][n].reproduced = true;
 				}
 				
 			}
@@ -116,10 +189,35 @@ function create_new_node_map() {
 		}
 	}
 	
+	determine_color(new_node_map);
+	node_map = new_node_map;
 	draw_nodes();
 	draw_raster();
+	
 }
 
+
+function determine_color(new_node_map) {
+	
+	for (var i = 0; i < new_node_map.length; i++) {
+		for (var n = 0; n < new_node_map[i].length; n++) {
+			
+			if (new_node_map[i][n].bey2[0] == "braun" || new_node_map[i][n].bey2[1] == "braun") {
+				new_node_map[i][n].color = "braun";
+				
+			} else if (new_node_map[i][n].gey[0] == "gruen" || new_node_map[i][n].gey[1] == "gruen") {
+				new_node_map[i][n].color = "gruen";
+				
+			} else if (new_node_map[i][n].gey[0] == "blau" || new_node_map[i][n].gey[1] == "blau") {
+				new_node_map[i][n].color = "blau";
+				
+			} else {
+				new_node_map[i][n].color = "grau";
+			}
+			
+		}
+	}
+}
 
 function set_node_properties() {
 
@@ -127,13 +225,13 @@ function set_node_properties() {
 		for (var n = 0; n < node_map[i].length; n++) {
 			
 			node_map[i][n].bey2 = new Array();
+			node_map[i][n].gey = new Array();
 			
 			if (node_map[i][n].color == "braun") {
 				
 				node_map[i][n].bey2[0] = "braun";
 				node_map[i][n].bey2[1] = Math.floor(Math.random()*100) < 50 ? "braun" : "blau";
 				
-				node_map[i][n].gey = new Array();
 				
 				var rand = Math.floor(Math.random()*100);
 				var rand1 = Math.floor(Math.random()*100);
@@ -259,6 +357,7 @@ function draw_nodes() {
 			}
 		}
 	}
+	
 }
 
 
@@ -267,6 +366,7 @@ function draw_preview(e) {
 		draw(e);
 		return
 	}
+	
 	ctx.clearRect(0, 0, canv.width, canv.height);
 	var x = e.pageX;
 	var y = e.pageY;
@@ -304,6 +404,7 @@ function init_canvas() {
 	node_size = parseInt(ns.options[ns.selectedIndex].value);
 	
 	ctx.clearRect(0, 0, canv.width, canv.height);
+	
 	draw_raster();
 	init_node_map();
 }
@@ -311,7 +412,7 @@ function init_canvas() {
 
 function draw_raster() {
 	
-	if (node_size < 3)
+	if (node_size < 5)
 		return
 	
 	ctx.lineWidth = 1;
