@@ -230,7 +230,8 @@ function set_node_properties() {
 			if (node_map[i][n].color == "braun") {
 				
 				node_map[i][n].bey2[0] = "braun";
-				node_map[i][n].bey2[1] = Math.floor(Math.random()*100) < 50 ? "braun" : "blau";
+				//node_map[i][n].bey2[1] = Math.floor(Math.random()*100) < 50 ? "braun" : "blau";
+				node_map[i][n].bey2[1] = "braun";
 				
 				
 				var rand = Math.floor(Math.random()*100);
