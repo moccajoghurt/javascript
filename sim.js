@@ -12,7 +12,6 @@ document.getElementById("grau").onclick = function () {draw_color = "grau"};
 document.getElementById("start_sim").onclick = start_sim;
 document.getElementById("next").onclick = create_new_node_map;
 
-
 canv = document.getElementById("canv");
 canv.addEventListener("mousemove", draw_preview, false);
 canv.addEventListener("mousedown", draw, false);
@@ -32,8 +31,9 @@ init_node_map();
 
 init_canvas();
 
-
-
+/*
+document.getElementById("infotable").innerHTML = "node-nr: <br /> bey2: <br /> &nbsp;&nbsp; Allel 1: <br />&nbsp;&nbsp; Allel 2: <br />gey: <br /> &nbsp;&nbsp; Allel 1: <br />&nbsp;&nbsp; Allel 2: <br />";
+*/
 function start_sim() {
 	set_node_properties();
 }
